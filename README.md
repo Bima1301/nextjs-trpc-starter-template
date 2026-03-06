@@ -1,4 +1,4 @@
-# Hulu CAI Frontend
+# NextJS tRPC Starter Template Frontend
 
 Proyek Next.js 15 dengan **tRPC** (type-safe API) dan **Better Auth** (autentikasi). Menggunakan Prisma sebagai ORM, React Query untuk data fetching, dan shadcn/ui untuk komponen UI.
 

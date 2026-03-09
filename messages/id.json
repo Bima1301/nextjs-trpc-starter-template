@@ -28,5 +28,31 @@
   },
   "Dashboard": {
     "title": "Dasbor"
+  },
+  "Landing": {
+    "badge": "Siap dipakai",
+    "heroTitleLine1": "Bangun lebih cepat dengan",
+    "heroTitleEmphasis": "type-safe",
+    "heroTitleLine2": "full-stack",
+    "heroDescription": "Starter production-ready yang type-safe dengan Next.js 15, tRPC v11, Better Auth, Prisma, React Query, next-intl, dan nuqs untuk state URL. Semua sudah terhubung — kamu tinggal fokus mengirim fitur.",
+    "navDashboard": "Buka Dashboard →",
+    "navSignOut": "Keluar",
+    "navSignIn": "Masuk",
+    "navGetStarted": "Mulai",
+    "ctaOpenDashboard": "Buka dashboard →",
+    "ctaGetStarted": "Mulai sekarang",
+    "footerBuiltWith": "Dibangun dengan Next.js",
+    "footerDocs": "Dokumentasi",
+    "footerGitHub": "GitHub",
+    "footerPrivacy": "Privasi",
+    "footerTerms": "Ketentuan",
+    "stackNext": "Next.js 15 App Router",
+    "stackTrpc": "tRPC v11 + SuperJSON",
+    "stackPrisma": "Prisma ORM",
+    "stackAuth": "Better Auth",
+    "stackIntl": "next-intl i18n",
+    "stackQuery": "React Query",
+    "stackUi": "shadcn/ui + Tailwind",
+    "stackNuqs": "nuqs state URL"
   }
 }

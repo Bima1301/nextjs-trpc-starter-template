@@ -28,5 +28,31 @@
   },
   "Dashboard": {
     "title": "Dashboard"
+  },
+  "Landing": {
+    "badge": "Ready to ship",
+    "heroTitleLine1": "Build faster with",
+    "heroTitleEmphasis": "type-safe",
+    "heroTitleLine2": "full-stack",
+    "heroDescription": "Production-ready, type-safe starter with Next.js 15, tRPC v11, Better Auth, Prisma, React Query, next-intl and nuqs for URL state. Everything is wired together so you can focus on shipping features.",
+    "navDashboard": "Dashboard →",
+    "navSignOut": "Sign out",
+    "navSignIn": "Sign in",
+    "navGetStarted": "Get started",
+    "ctaOpenDashboard": "Open dashboard →",
+    "ctaGetStarted": "Get started now",
+    "footerBuiltWith": "Built with Next.js",
+    "footerDocs": "Docs",
+    "footerGitHub": "GitHub",
+    "footerPrivacy": "Privacy",
+    "footerTerms": "Terms",
+    "stackNext": "Next.js 15 App Router",
+    "stackTrpc": "tRPC v11 + SuperJSON",
+    "stackPrisma": "Prisma ORM",
+    "stackAuth": "Better Auth",
+    "stackIntl": "next-intl i18n",
+    "stackQuery": "React Query",
+    "stackUi": "shadcn/ui + Tailwind",
+    "stackNuqs": "nuqs URL state"
   }
 }

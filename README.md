@@ -1,21 +1,21 @@
 # NextJS tRPC Starter Template Frontend
 
-Proyek Next.js 15 dengan **tRPC** (type-safe API) dan **Better Auth** (autentikasi). Menggunakan Prisma sebagai ORM, React Query untuk data fetching, dan shadcn/ui untuk komponen UI.
+A full‑stack dashboard starter built with **Next.js 15 App Router**, **tRPC v11**, **Better Auth**, and **Prisma**, including i18n, theming, persistent layout preferences, and URL state via **nuqs**.
 
-## Tech Stack
+## Tech Stack (7 core pillars)
 
-- **Framework:** Next.js 15 (App Router)
-- **API:** tRPC v11 + React Query
-- **Auth:** Better Auth (email/password + GitHub OAuth)
-- **Database:** PostgreSQL + Prisma
-- **Validation:** Zod
-- **Serialization:** SuperJSON
-- **UI:** Tailwind CSS, Radix UI, shadcn/ui
+- **Next.js 15 (App Router)**: Modern routing with Server Components, route groups, and middleware.
+- **tRPC v11 + SuperJSON + React Query**: End‑to‑end type‑safe API with client‑side caching & mutations.
+- **Better Auth + Prisma**: Email/password & GitHub OAuth on top of Prisma/PostgreSQL.
+- **Prisma ORM**: Typed schema, migrations, and database client.
+- **next-intl i18n**: Locale‑based routing (`/[locale]`) and translations across the UI.
+- **UI: Tailwind CSS + shadcn/ui + Radix**: Headless components styled for a modern dashboard.
+- **State & DX: Zustand + Biome + TypeScript + nuqs**: Global preferences store, fast linter/formatter, full typing, and URL‑synced state for filters & pagination.
 
-## Persyaratan
+## Requirements
 
 - Node.js 18+
-- Bun (atau npm/pnpm)
+- Bun (or npm/pnpm)
 - PostgreSQL
 
 ## Setup
@@ -30,7 +30,7 @@ bun install
 
 ### 2. Environment Variables
 
-Buat file `.env` di root proyek (atau salin dari `.env.example`):
+Create a `.env` file at the project root (or copy from `.env.example`):
 
 ```env
 # Database
@@ -40,67 +40,73 @@ DATABASE_URL="postgresql://user:password@localhost:5432/nextjs-trpc-starter-temp
 BETTER_AUTH_SECRET="your-secret-key-min-32-chars"
 FE_BASE_URL="http://localhost:3000"
 
-# GitHub OAuth (opsional, untuk sign in with GitHub)
+# GitHub OAuth (optional, for sign in with GitHub)
 BETTER_AUTH_GITHUB_CLIENT_ID="your-github-client-id"
 BETTER_AUTH_GITHUB_CLIENT_SECRET="your-github-client-secret"
 ```
 
-| Variable               | Wajib     | Keterangan                                       |
-| ---------------------- | --------- | ------------------------------------------------ |
-| `DATABASE_URL`         | ✅        | Connection string PostgreSQL                     |
-| `BETTER_AUTH_SECRET`   | ✅ (prod) | Secret untuk session (min 32 karakter)           |
-| `FE_BASE_URL`          | ✅        | URL base frontend (mis. `http://localhost:3000`) |
-| `BETTER_AUTH_GITHUB_*` | ❌        | Diperlukan jika pakai GitHub OAuth               |
+| Variable               | Required | Description                                      |
+| ---------------------- | -------- | ------------------------------------------------ |
+| `DATABASE_URL`         | ✅       | PostgreSQL connection string                     |
+| `BETTER_AUTH_SECRET`   | ✅ (prod)| Session secret (min 32 characters)               |
+| `FE_BASE_URL`          | ✅       | Frontend base URL (e.g. `http://localhost:3000`) |
+| `BETTER_AUTH_GITHUB_*` | ❌       | Needed if using GitHub OAuth                     |
 
 ### 3. Database
 
-Generate Prisma client dan jalankan migrasi:
+Generate Prisma client and run migrations:
 
 ```bash
-bun run db:generate   # atau: prisma migrate dev
-bun run db:seed       # (opsional) seed data
+bun run db:generate   # or: prisma migrate dev
+bun run db:seed       # optional: seed data
 ```
 
-### 4. Jalankan Development Server
+### 4. Run Development Server
 
 ```bash
 bun run dev
 ```
 
-Aplikasi berjalan di [http://localhost:3000](http://localhost:3000).
+The app will be available at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## Struktur Proyek (Relevan)
+## Project Structure (Relevant)
 
-```
+```text
 src/
 ├── app/
-│   ├── (auth)/                 # Route group: login, register
-│   │   ├── layout.tsx          # Layout auth (redirect jika sudah login)
-│   │   ├── login/
-│   │   ├── register/
-│   │   └── _components/        # LoginForm, RegisterForm, GitHub button
+│   ├── [locale]/                      # Locale segment (en, id, ...)
+│   │   ├── (public)/                  # Landing page
+│   │   │   └── page.tsx
+│   │   ├── (auth)/                    # Route group: login, register
+│   │   │   ├── layout.tsx             # Auth layout (redirects if already logged in)
+│   │   │   ├── login/
+│   │   │   ├── register/
+│   │   │   └── _components/           # LoginForm, RegisterForm, GitHub button, locale switcher
+│   │   ├── (protected)/dashboard/     # Protected dashboard routes
+│   │   │   ├── layout.tsx             # Layout with sidebar, preferences, etc.
+│   │   │   └── ...
+│   │   └── layout.tsx                 # Locale‑aware layout (next-intl, TRPCReactProvider, Toaster)
 │   ├── api/
-│   │   ├── auth/[...all]/      # Better Auth handler
-│   │   └── trpc/[trpc]/        # tRPC HTTP handler
-│   ├── layout.tsx              # Root layout (TRPCReactProvider, Toaster)
-│   └── page.tsx
+│   │   ├── auth/[...all]/             # Better Auth handler
+│   │   └── trpc/[trpc]/               # tRPC HTTP handler
+│   └── layout.tsx                     # Root shell (fonts + preference data‑attributes)
 ├── server/
 │   ├── api/
-│   │   ├── trpc.ts             # Context, procedures (public/protected)
-│   │   ├── root.ts             # App router (gabungan semua router)
-│   │   └── routers/            # post, dll.
+│   │   ├── trpc.ts                    # Context, procedures (public/protected)
+│   │   ├── root.ts                    # App router (router composition)
+│   │   └── routers/                   # Domain routers (post, etc.)
 │   ├── better-auth/
-│   │   ├── config.ts           # Konfigurasi Better Auth
-│   │   ├── server.ts           # getSession() untuk RSC
-│   │   ├── client.ts           # authClient untuk client component
+│   │   ├── config.ts                  # Better Auth configuration
+│   │   ├── server.ts                  # getSession() for RSC
+│   │   ├── client.ts                  # authClient for client components
 │   │   └── index.ts
-│   └── db.ts                   # Prisma client
+│   └── db.ts                          # Prisma client
 ├── trpc/
-│   ├── react.tsx               # api (createTRPCReact), TRPCReactProvider
-│   ├── server.ts               # api, HydrateClient untuk RSC
-│   └── query-client.ts         # React Query + SuperJSON
+│   ├── react.tsx                      # api (createTRPCReact), TRPCReactProvider
+│   ├── server.ts                      # api helpers, HydrateClient for RSC
+│   └── query-client.ts                # React Query + SuperJSON
 ├── components/
 ├── config/
 └── lib/
@@ -110,62 +116,62 @@ src/
 
 ## Better Auth
 
-### Konfigurasi
+### Configuration
 
-- **Lokasi:** `src/server/better-auth/config.ts`
+- **Location:** `src/server/better-auth/config.ts`
 - **Adapter:** Prisma (PostgreSQL)
-- **Fitur:** Email/Password + GitHub OAuth
+- **Features:** Email/password + GitHub OAuth
 
-### Penggunaan
+### Usage
 
-**Di Server (RSC / Route Handler):**
+**On the server (RSC / Route Handler):**
 
 ```ts
 import { auth } from "@/server/better-auth";
 import { getSession } from "@/server/better-auth/server";
 
-// Session di RSC
+// Session in an RSC
 const session = await getSession();
 if (session?.user) {
-  // user sudah login
+  // user is logged in
 }
 
-// Atau langsung
+// Or directly
 const session = await auth.api.getSession({ headers: await headers() });
 ```
 
-**Di Client Component:**
+**In a Client Component:**
 
 ```ts
 "use client";
 import { authClient } from "@/server/better-auth/client";
 
-// Login email/password
+// Login with email/password
 await authClient.signIn.email({ email, password });
 
 // Logout
 await authClient.signOut();
 
 // Sign in with GitHub
-// (bisa pakai link/redirect ke callback atau authClient.signIn.social)
+// (via redirect to the callback or authClient.signIn.social)
 ```
 
-**Route API Auth:** Semua request ke `/api/auth/*` (login, logout, callback, dll.) ditangani oleh Better Auth di `src/app/api/auth/[...all]/route.ts`.
+**Auth API Route:** All requests to `/api/auth/*` (login, logout, callback, etc.) are handled by Better Auth in `src/app/api/auth/[...all]/route.ts`.
 
 ---
 
 ## tRPC
 
-### Konfigurasi
+### Configuration
 
-- **Context:** `createTRPCContext` di `src/server/api/trpc.ts` — menyediakan `db`, `session` (dari Better Auth), dan `headers`.
+- **Context:** `createTRPCContext` in `src/server/api/trpc.ts` — exposes `db`, `session` (from Better Auth), and `headers`.
 - **Procedures:**
-  - `publicProcedure` — bisa dipanggil tanpa login.
-  - `protectedProcedure` — wajib login; `ctx.session.user` tersedia.
+  - `publicProcedure` — accessible without auth.
+  - `protectedProcedure` — requires auth; `ctx.session.user` is guaranteed.
 
-### Menambah Router Baru
+### Adding a New Router
 
-1. Buat router di `src/server/api/routers/`, contoh:
+1. Create a router in `src/server/api/routers/`, for example:
 
 ```ts
 // src/server/api/routers/example.ts
@@ -187,7 +193,7 @@ export const exampleRouter = createTRPCRouter({
 });
 ```
 
-2. Daftarkan di root router:
+2. Register it in the root router:
 
 ```ts
 // src/server/api/root.ts
@@ -199,7 +205,7 @@ export const appRouter = createTRPCRouter({
 });
 ```
 
-### Pemanggilan dari Client
+### Calling from a Client Component
 
 ```ts
 "use client";
@@ -212,7 +218,7 @@ function MyComponent() {
 }
 ```
 
-### Pemanggilan dari RSC (Server Component)
+### Calling from an RSC (Server Component)
 
 ```ts
 import { api, HydrateClient } from "@/trpc/server";
@@ -231,21 +237,21 @@ export default async function Page() {
 
 ## Scripts
 
-| Script                | Keterangan                    |
-| --------------------- | ----------------------------- |
-| `bun run dev`         | Development (Next.js + Turbo) |
-| `bun run build`       | Build production              |
-| `bun run start`       | Jalankan build production     |
-| `bun run db:generate` | Prisma migrate dev            |
-| `bun run db:push`     | Prisma db push                |
-| `bun run db:studio`   | Buka Prisma Studio            |
-| `bun run db:seed`     | Jalankan seed                 |
-| `bun run lint`        | ESLint                        |
-| `bun run typecheck`   | TypeScript check              |
+| Script                | Description                      |
+| --------------------- | -------------------------------- |
+| `bun run dev`         | Development (Next.js + Turbo)    |
+| `bun run build`       | Production build                 |
+| `bun run start`       | Start production build           |
+| `bun run db:generate` | Prisma migrate dev               |
+| `bun run db:push`     | Prisma db push                   |
+| `bun run db:studio`   | Open Prisma Studio               |
+| `bun run db:seed`     | Run seed script                  |
+| `bun run lint`        | Biome lint                       |
+| `bun run typecheck`   | TypeScript type-check            |
 
 ---
 
-## Referensi
+## References
 
 - [Next.js](https://nextjs.org/docs)
 - [tRPC](https://trpc.io/docs)

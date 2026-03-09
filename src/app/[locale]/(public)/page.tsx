@@ -1,15 +1,15 @@
 import { headers } from "next/headers";
 
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { Link, redirect } from "@/i18n/navigation";
 import { auth } from "@/server/better-auth";
 import { getSession } from "@/server/better-auth/server";
 import { api, HydrateClient } from "@/trpc/server";
 
-
 export default async function Home() {
   const session = await getSession();
+  const t = await getTranslations("Landing");
 
   if (session) {
     void api.post.getLatest.prefetch();
@@ -32,12 +32,21 @@ export default async function Home() {
 
             <div className="flex items-center gap-3">
               <div className="mr-2 hidden gap-2 md:flex">
-                {["Next.js", "tRPC", "Prisma", "BetterAuth"].map((t) => (
+                {[
+                  t("stackNext"),
+                  t("stackTrpc"),
+                  t("stackAuth"),
+                  // t("stackPrisma"),
+                  // t("stackIntl"),
+                  // t("stackQuery"),
+                  // t("stackUi"),
+                  t("stackNuqs"),
+                ].map((label) => (
                   <span
-                    key={t}
+                    key={label}
                     className="rounded-full border border-zinc-800 px-2.5 py-1 text-[10px] text-zinc-500 uppercase tracking-widest"
                   >
-                    {t}
+                    {label}
                   </span>
                 ))}
               </div>
@@ -48,7 +57,7 @@ export default async function Home() {
                     href="/dashboard"
                     className="rounded-lg border border-zinc-700 px-4 py-2 text-sm transition-all hover:border-violet-500 hover:text-violet-400"
                   >
-                    Dashboard →
+                    {t("navDashboard")}
                   </Link>
                   <form>
                     <button
@@ -58,11 +67,11 @@ export default async function Home() {
                         await auth.api.signOut({
                           headers: await headers(),
                         });
-                        redirect({ href: '/', locale: await getLocale() });
+                        redirect({ href: "/", locale: await getLocale() });
                       }}
                       className="rounded-lg px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:text-zinc-100"
                     >
-                      Sign out
+                      {t("navSignOut")}
                     </button>
                   </form>
                 </>
@@ -72,13 +81,13 @@ export default async function Home() {
                     href="/login"
                     className="rounded-lg border border-zinc-700 px-4 py-2 text-sm transition-all hover:border-zinc-500"
                   >
-                    Sign in
+                    {t("navSignIn")}
                   </Link>
                   <Link
                     href="/register"
                     className="rounded-lg bg-violet-600 px-4 py-2 text-sm text-white shadow-lg shadow-violet-900/40 transition-all hover:-translate-y-px hover:bg-violet-500"
                   >
-                    Get started
+                    {t("navGetStarted")}
                   </Link>
                 </>
               )}
@@ -88,18 +97,18 @@ export default async function Home() {
           <section className="py-24 text-center">
             <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-violet-500/25 bg-violet-500/10 px-4 py-1.5 text-[11px] text-violet-300 uppercase tracking-widest">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_6px_#4ade80]" />
-              Ready to ship
+              {t("badge")}
             </div>
 
             <h1 className="mb-6 font-bold text-5xl text-zinc-100 leading-[1.05] tracking-tighter md:text-7xl">
-              Build faster with{" "}
-              <span className="font-normal text-violet-300 italic">type-safe</span>
-              <br /> full-stack
+              {t("heroTitleLine1")}{" "}
+              <span className="font-normal text-violet-300 italic">{t("heroTitleEmphasis")}</span>
+              <br />
+              {t("heroTitleLine2")}
             </h1>
 
             <p className="mx-auto mb-10 max-w-md text-base text-zinc-400 leading-relaxed">
-              Starter siap pakai dengan Next.js, tRPC, BetterAuth, dan Prisma.
-              Semua sudah terhubung — fokus saja ke produkmu.
+              {t("heroDescription")}
             </p>
 
             <div className="flex flex-wrap justify-center gap-3">
@@ -108,14 +117,14 @@ export default async function Home() {
                   href="/dashboard"
                   className="rounded-xl bg-violet-600 px-6 py-3 font-medium text-sm text-white shadow-lg shadow-violet-900/40 transition-all hover:-translate-y-px hover:bg-violet-500"
                 >
-                  Buka Dashboard →
+                  {t("ctaOpenDashboard")}
                 </Link>
               ) : (
                 <Link
                   href="/register"
                   className="rounded-xl bg-violet-600 px-6 py-3 font-medium text-sm text-white shadow-lg shadow-violet-900/40 transition-all hover:-translate-y-px hover:bg-violet-500"
                 >
-                  Mulai sekarang
+                  {t("ctaGetStarted")}
                 </Link>
               )}
             </div>
@@ -123,27 +132,39 @@ export default async function Home() {
 
           <div className="mb-20 flex flex-wrap justify-center gap-8 border-zinc-800 border-y py-4">
             {[
-              { label: "Next.js 15", color: "bg-zinc-100" },
-              { label: "tRPC v11", color: "bg-blue-400" },
-              { label: "BetterAuth", color: "bg-violet-400" },
-              { label: "Prisma ORM", color: "bg-emerald-400" },
-              { label: "TypeScript", color: "bg-sky-400" },
-            ].map((t) => (
-              <div key={t.label} className="flex items-center gap-2 text-xs text-zinc-500">
-                <span className={`h-2 w-2 rounded-sm ${t.color}`} />
-                {t.label}
+              { key: "stackNext", color: "bg-zinc-100" },
+              { key: "stackTrpc", color: "bg-blue-400" },
+              { key: "stackPrisma", color: "bg-emerald-400" },
+              { key: "stackAuth", color: "bg-violet-400" },
+              { key: "stackIntl", color: "bg-amber-400" },
+              { key: "stackQuery", color: "bg-sky-400" },
+              { key: "stackUi", color: "bg-pink-400" },
+              { key: "stackNuqs", color: "bg-indigo-400" },
+            ].map((item) => (
+              <div key={item.key} className="flex items-center gap-2 text-xs text-zinc-500">
+                <span className={`h-2 w-2 rounded-sm ${item.color}`} />
+                {t(item.key)}
               </div>
             ))}
           </div>
 
           <footer className="flex flex-col items-center justify-between gap-4 border-zinc-800 border-t py-6 text-xs text-zinc-600 sm:flex-row">
-            <span>© {new Date().getFullYear()} app.dev — Built with Next.js</span>
+            <span>
+              © {new Date().getFullYear()} app.dev — {t("footerBuiltWith")}
+            </span>
             <div className="flex gap-5">
-              {["Docs", "GitHub", "Privacy", "Terms"].map((l) => (
-                <a key={l} href={`/${l.toLowerCase()}`} className="transition-colors hover:text-zinc-300">
-                  {l}
-                </a>
-              ))}
+              <a href="/docs" className="transition-colors hover:text-zinc-300">
+                {t("footerDocs")}
+              </a>
+              <a href="/github" className="transition-colors hover:text-zinc-300">
+                {t("footerGitHub")}
+              </a>
+              <a href="/privacy" className="transition-colors hover:text-zinc-300">
+                {t("footerPrivacy")}
+              </a>
+              <a href="/terms" className="transition-colors hover:text-zinc-300">
+                {t("footerTerms")}
+              </a>
             </div>
           </footer>
 

@@ -2,6 +2,9 @@ import type { ReactNode } from "react";
 
 import { Geist } from "next/font/google";
 
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
+
+import { fontVars } from "@/lib/fonts/registry";
 import { PREFERENCE_DEFAULTS } from "@/lib/preferences/preferences-config";
 import { PreferencesStoreProvider } from "@/stores/preferences/preferences-provider";
 
@@ -26,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={geist.variable}
+      className={`${geist.variable} ${fontVars}`}
       suppressHydrationWarning
       data-theme-mode={theme_mode}
       data-theme-preset={theme_preset}
@@ -44,7 +47,7 @@ export default function RootLayout({
           navbarStyle={navbar_style}
           font={font}
         >
-          {children}
+          <NuqsAdapter>{children}</NuqsAdapter>
         </PreferencesStoreProvider>
       </body>
     </html>

@@ -2,7 +2,6 @@ import {
   Banknote,
   ChartBar,
   Fingerprint,
-  Forklift,
   Gauge,
   GraduationCap,
   LayoutDashboard,
@@ -50,6 +49,11 @@ export const sidebarItems: NavGroup[] = [
         icon: LayoutDashboard,
       },
       {
+        title: "Post",
+        url: "/dashboard/post",
+        icon: Gauge,
+      },
+      {
         title: "CRM",
         url: "/dashboard/crm",
         icon: ChartBar,
@@ -58,12 +62,6 @@ export const sidebarItems: NavGroup[] = [
         title: "Finance",
         url: "/dashboard/finance",
         icon: Banknote,
-      },
-      {
-        title: "Analytics",
-        url: "/dashboard/coming-soon",
-        icon: Gauge,
-        comingSoon: true,
       },
       {
         title: "E-commerce",
@@ -75,12 +73,6 @@ export const sidebarItems: NavGroup[] = [
         title: "Academy",
         url: "/dashboard/coming-soon",
         icon: GraduationCap,
-        comingSoon: true,
-      },
-      {
-        title: "Logistics",
-        url: "/dashboard/coming-soon",
-        icon: Forklift,
         comingSoon: true,
       },
     ],

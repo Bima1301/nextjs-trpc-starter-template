@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function Page() {
-  return <>Coming Soon</>;
+  return redirect("/dashboard/default");
 }

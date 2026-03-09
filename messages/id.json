@@ -1,0 +1,32 @@
+{
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan"
+  },
+  "HomePage": {
+    "title": "Buat Aplikasi T3",
+    "t3": "T3",
+    "firstSteps": "Langkah Awal →",
+    "firstStepsDesc": "Dasar-dasarnya - Semua yang perlu Anda ketahui untuk mengatur database dan autentikasi.",
+    "documentation": "Dokumentasi →",
+    "documentationDesc": "Pelajari lebih lanjut tentang Create T3 App, library yang digunakannya, dan cara deploy.",
+    "loadingQuery": "Memuat query tRPC...",
+    "loggedInAs": "Masuk sebagai",
+    "signInWithGithub": "Masuk dengan Github",
+    "signOut": "Keluar"
+  },
+  "Auth": {
+    "loginTitle": "Masuk ke akun Anda",
+    "loginSubtitle": "Silakan masukkan detail Anda untuk login.",
+    "orContinueWith": "Atau lanjutkan dengan",
+    "dontHaveAccount": "Belum punya akun?",
+    "register": "Daftar",
+    "registerTitle": "Buat akun Anda",
+    "registerSubtitle": "Silakan masukkan detail Anda untuk mendaftar.",
+    "alreadyHaveAccount": "Sudah punya akun?",
+    "login": "Masuk"
+  },
+  "Dashboard": {
+    "title": "Dasbor"
+  }
+}

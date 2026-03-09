@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from 'nextjs-toploader/app';
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -10,7 +11,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/server/better-auth/client";
-import { useRouter } from 'nextjs-toploader/app';
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -30,27 +30,27 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    toast.promise(
-      authClient.signIn.email({
+    toast.loading("Login...");
+    try {
+      const result = await authClient.signIn.email({
         email: data.email,
         password: data.password,
-      }),
-      {
-        loading: "Loading...",
-        success: (data) => {
-          if (data.error) {
-            return data.error.message
-          }
+      });
 
-          router.push('/')
-          return "Login Success."
-        },
-        error: (err) => {
-          console.log(err)
-          return "Error"
-        },
+      if (result.error) {
+        toast.dismiss();
+        toast.error(result.error.message);
+        return;
       }
-    )
+
+      toast.dismiss();
+      toast.success("Login Success.");
+      router.push('/');
+    } catch (err) {
+      console.log(err);
+      toast.dismiss();
+      toast.error("Error");
+    }
   };
 
   return (

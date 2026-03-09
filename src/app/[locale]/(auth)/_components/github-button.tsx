@@ -1,10 +1,11 @@
+import { getLocale } from "next-intl/server";
 import { siGithub } from "simple-icons";
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { SimpleIcon } from "@/components/shared/simple-icon";
+import { Button } from "@/components/ui/button";
+import { redirect } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { auth } from "@/server/better-auth";
-import { redirect } from "next/navigation";
 
 export function GithubButton({ className, ...props }: React.ComponentProps<typeof Button>) {
   return (
@@ -21,7 +22,7 @@ export function GithubButton({ className, ...props }: React.ComponentProps<typeo
           if (!res.url) {
             throw new Error("No URL returned from signInSocial");
           }
-          redirect(res.url);
+          redirect({ href: res.url, locale: await getLocale() });
         }}
       >
         <SimpleIcon icon={siGithub} className="size-4" />

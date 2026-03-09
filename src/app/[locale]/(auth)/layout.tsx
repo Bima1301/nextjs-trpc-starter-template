@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
 
-import { Command } from "lucide-react";
-
-import { APP_CONFIG } from "@/config/app-config";
-import { Separator } from "@/components/ui/separator";
-import { auth } from "@/server/better-auth";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+
+import { Command } from "lucide-react";
+import { getLocale } from "next-intl/server";
+
+import { Separator } from "@/components/ui/separator";
+import { APP_CONFIG } from "@/config/app-config";
+import { redirect } from "@/i18n/navigation";
+import { auth } from "@/server/better-auth";
 
 export default async function Layout({ children }: Readonly<{ children: ReactNode }>) {
   const session = await auth.api.getSession({
@@ -14,7 +16,7 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
   })
 
   if (session) {
-    redirect('/')
+    redirect({ href: '/', locale: await getLocale() })
   }
 
   return (

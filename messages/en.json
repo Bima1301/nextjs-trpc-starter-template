@@ -1,0 +1,32 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong"
+  },
+  "HomePage": {
+    "title": "Create T3 App",
+    "t3": "T3",
+    "firstSteps": "First Steps →",
+    "firstStepsDesc": "Just the basics - Everything you need to know to set up your database and authentication.",
+    "documentation": "Documentation →",
+    "documentationDesc": "Learn more about Create T3 App, the libraries it uses, and how to deploy it.",
+    "loadingQuery": "Loading tRPC query...",
+    "loggedInAs": "Logged in as",
+    "signInWithGithub": "Sign in with Github",
+    "signOut": "Sign out"
+  },
+  "Auth": {
+    "loginTitle": "Login to your account",
+    "loginSubtitle": "Please enter your details to login.",
+    "orContinueWith": "Or continue with",
+    "dontHaveAccount": "Don't have an account?",
+    "register": "Register",
+    "registerTitle": "Create your account",
+    "registerSubtitle": "Please enter your details to register.",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login"
+  },
+  "Dashboard": {
+    "title": "Dashboard"
+  }
+}
